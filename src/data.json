@@ -1,0 +1,64 @@
+{
+  "suppliers": [
+    {
+      "name": "Hudson Music Suppliers",
+      "id": "06883083-5fe5-4b1c-9fff-e033810ccffa",
+      "address": "221B Baker's Street, London",
+      "contact_person": "John Watson",
+      "email": "contact@hudsonsuppliers.com",
+      "mobile": "+447911123456",
+      "reg_date": 1606800080089
+    },
+    {
+      "name": "Stark Gaming Suppliers",
+      "id": "244a566d-2a9c-4a6e-b49b-f28de0ac9dcd",
+      "address": "Stark Tower, NYC",
+      "contact_person": "Pepper Pots",
+      "email": "contact@starksuppliers.com",
+      "mobile": "+12125096995",
+      "reg_date": 1606806080089
+    }
+  ],
+  "inventory": [
+    {
+      "name": "AMD Ryzen 5 3600X",
+      "id": "752d4e17-d52e-4e7f-a566-8d9a72373501",
+      "supplier_id": "244a566d-2a9c-4a6e-b49b-f28de0ac9dcd",
+      "warehouse_id": "WAR001",
+      "batch_id": "BAT001",
+      "category": "PC Parts & Components",
+      "description": "6 Cores - 3800 MHz - 95 watts",
+      "qty": 3,
+      "units": 1,
+      "prod_date": 1606806080089,
+      "image": "https://www.amd.com/system/files/styles/992px/private/2019-06/238593-ryzen-5-pib-left-facing-1260x709.png"
+    },
+    {
+      "name": "Nvidia RTX 3080",
+      "id": "bcdd474d-a5e1-42c5-93ab-932af13ce108",
+      "supplier_id": "244a566d-2a9c-4a6e-b49b-f28de0ac9dcd",
+      "warehouse_id": "WAR001",
+      "batch_id": "BAT002",
+      "category": "PC Parts & Components",
+      "description": "The GeForce RTX™ 3080 delivers the ultra performance that gamers crave, powered by Ampere - NVIDIA’s 2nd gen RTX architecture. It’s built with enhanced RT Cores and Tensor Cores, new streaming multiprocessors, and superfast G6X memory for an amazing gaming experience.",
+      "qty": 2,
+      "units": 1,
+      "prod_date": 1606808080089,
+      "image": "https://www.nvidia.com/content/dam/en-zz/Solutions/geforce/ampere/rtx-3080/geforce-rtx-3080-shop-630-d.png"
+    },
+    {
+      "name": "Kala KA 15S Mahogany Soprano Ukulele ",
+      "id": "43ba3881-3a31-443b-9823-5806addb938c",
+      "supplier_id": "06883083-5fe5-4b1c-9fff-e033810ccffa",
+      "warehouse_id": "WAR002",
+      "batch_id": "BAT005",
+      "category": "String Instruments",
+      "description": "Mahogany Body and neck, 12 brass Frets with fret position marks at 5th, 7th and 10th Frets on neck and top of Fingerboard, Rosewood Fingerboard and Bridge, Satin finish and geared tuners, Pre-strung with premium Aquila Nylgut strings.",
+      "qty": 0,
+      "units": 1,
+      "prod_date": 1606808010089,
+      "image": "https://cdn.shopify.com/s/files/1/0806/0141/products/KA-15S_20_R_1024x.jpg"
+    }
+  ],
+  "warehouse": ["WAR001", "WAR002", "WAR003", "WAR004", "WAR005"]
+}
