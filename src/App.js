@@ -19,7 +19,7 @@ const App = () => {
           <Route exact path="/suppliers">
             <Suppliers />
           </Route>
-          <Route exact path="/inventory">
+          <Route exact path="/supplier/:supplierID">
             <Inventory />
           </Route>
         </Switch>

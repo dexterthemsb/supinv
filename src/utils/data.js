@@ -11,3 +11,12 @@ export const getAllItems = () => {
 export const getAllWarehouses = () => {
   return data.warehouse;
 };
+
+export const getSupplier = supplierID => {
+  const supplierDetails = data.suppliers.filter(supplier => supplierID === supplier.id)[0];
+  const inventory = data.inventory.filter(item => supplierID === item.supplier_id);
+
+  if (supplierDetails) return { supplierDetails, inventory };
+
+  return null;
+};
