@@ -1,0 +1,28 @@
+@import "../../sassColors.scss";
+
+.custom-alert {
+  width: 100% !important;
+  padding: 6px 24px 6px 16px !important;
+  white-space: pre-line !important;
+  white-space: pre-wrap !important;
+}
+
+.alert-error {
+  border-left: 4px solid $error-main !important;
+  color: $error-main !important;
+}
+
+.alert-success {
+  border-left: 4px solid $success-main !important;
+  color: $success-main !important;
+}
+
+.alert-info {
+  border-left: 4px solid $info-main !important;
+  color: $info-main !important;
+}
+
+.alert-warning {
+  border-left: 4px solid $warning-main !important;
+  color: $warning-main !important;
+}
