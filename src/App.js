@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.scss';
+import { Link, Route, Switch } from "react-router-dom";
 
-function App() {
+import Inventory from "./pages/inventory";
+import Suppliers from "./pages/suppliers";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex min-h-screen">
+      <div className="container mx-auto min-h-full">
+        <Switch>
+          <Route exact path="/">
+            <div className="px-8 py-16 min-h-full flex flex-col items-center justify-center">
+              <p className="text-4xl mb-2 font-bold text-gray-900">Home</p>
+              <Link className="hover:text-yellow-700 text-yellow-600" to="/suppliers">
+                Check all the Suppliers
+              </Link>
+            </div>
+          </Route>
+          <Route exact path="/suppliers">
+            <Suppliers />
+          </Route>
+          <Route exact path="/inventory">
+            <Inventory />
+          </Route>
+        </Switch>
+      </div>
     </div>
   );
-}
+};
 
 export default App;
