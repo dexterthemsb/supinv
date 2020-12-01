@@ -22,3 +22,47 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+.custom-textfield {
+  border: 1px #a3a3a3 solid !important;
+  border-radius: 4px !important;
+  overflow: hidden !important;
+
+  div {
+    padding: -10px !important;
+    background-color: transparent !important;
+  }
+}
+
+.form-fields {
+  margin: 25px 0 0 0 !important;
+}
+
+.dialog-header-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dialog-header,
+.dialog-actions {
+  padding: 25px !important;
+}
+
+.dialog-content {
+  padding: 0 25px !important;
+}
+
+.custom-button {
+  padding: 7.5px 25px !important;
+
+  span {
+    color: #ffffff !important;
+    letter-spacing: 0.125em !important;
+  }
+}
+
+.button-submit {
+  padding: 15.25px 25px !important;
+}
