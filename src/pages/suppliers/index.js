@@ -1,29 +1,27 @@
 import { useState } from "react";
+import { connect } from "react-redux";
 
 import { Button, IconButton } from "@material-ui/core";
 import { Plus } from "react-feather";
 
 import SupplierCard from "../../components/supplierCard/supplierCard";
 import SupplierForm from "../../components/supplierForm/supplierForm";
-import CustomAlert from "../../components/customAlert/customAlert";
 
-import { getAllSuppliers } from "../../utils/data";
 import { useWindowSize } from "../../utils/hooks";
 
-const Suppliers = () => {
+import { getAllSuppliers } from "../../selectors/mainSelector";
+import { addSupplier } from "../../actions/supplierActions";
+
+const Suppliers = props => {
   // hooked
   const { windowWidth } = useWindowSize();
 
   // state
   const [openDialog, setOpenDialog] = useState(false);
-  const [suppliers, setSuppliers] = useState(getAllSuppliers());
-  const [success, setSuccess] = useState("");
 
   // handle add suppliers
   const handleAddSuppliers = data => {
-    setSuppliers([...suppliers, data]);
-
-    setSuccess("Entry added successfully.");
+    props.addSupplier(data);
   };
 
   return (
@@ -52,17 +50,26 @@ const Suppliers = () => {
         </div>
 
         <div className="suppliers-list">
-          {suppliers.length &&
-            suppliers.map(supplier => <SupplierCard key={supplier.id} supplier={supplier} />)}
+          {props.suppliers.length &&
+            props.suppliers.map(supplier => <SupplierCard key={supplier.id} supplier={supplier} />)}
         </div>
 
         <SupplierForm open={openDialog} setOpen={setOpenDialog} submit={handleAddSuppliers} />
       </div>
-
-      {/* success */}
-      <CustomAlert msg={success} setMsg={setSuccess} severity="success" />
     </>
   );
 };
 
-export default Suppliers;
+// map state to props
+const mapStateToProps = state => {
+  return {
+    suppliers: getAllSuppliers(state)
+  };
+};
+
+// map dispatch to props
+const mapDispatchToProps = {
+  addSupplier
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Suppliers);
