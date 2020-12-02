@@ -74,8 +74,6 @@ const SupplierForm = props => {
 
         <form>
           <DialogContent className="dialog-content">
-            <p className="text-base">Enter the supplier details. All the fields are mandatory.</p>
-
             <TextField
               fullWidth
               required
@@ -85,6 +83,7 @@ const SupplierForm = props => {
               label="Supplier Name"
               onChange={e => setName(e.target.value)}
             />
+
             <TextField
               fullWidth
               required
@@ -94,6 +93,7 @@ const SupplierForm = props => {
               label="Address"
               onChange={e => setAddress(e.target.value)}
             />
+
             <TextField
               fullWidth
               required
@@ -103,6 +103,7 @@ const SupplierForm = props => {
               label="Contact Person"
               onChange={e => setContactPerson(e.target.value)}
             />
+
             <TextField
               fullWidth
               required
@@ -112,6 +113,7 @@ const SupplierForm = props => {
               label="Email"
               onChange={e => setEmail(e.target.value)}
             />
+
             <TextField
               fullWidth
               required
@@ -131,6 +133,7 @@ const SupplierForm = props => {
               variant="contained"
               color="primary"
               type="submit"
+              style={{ margin: "-25px 0 0 0" }}
               onClick={e => handleAddSupplier(e)}
             >
               Save details
