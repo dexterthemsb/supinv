@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { Button } from "@material-ui/core";
 
 import { getSupplier } from "../../utils/data";
+import ItemCard from "../../components/itemCard/itemCard";
 
 const Inventory = () => {
   // hooked
@@ -23,13 +24,9 @@ const Inventory = () => {
         </Button>
       </div>
 
-      <div className="inventory-list">
+      <div className="suppliers-list">
         {data.inventory.length &&
-          data.inventory.map(item => (
-            <div key={item.id} className="mb-4 ">
-              <p>{item.name}</p>
-            </div>
-          ))}
+          data.inventory.map(item => <ItemCard key={item.id} item={item} />)}
       </div>
     </div>
   );

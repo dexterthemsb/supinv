@@ -77,6 +77,32 @@ code {
   grid-gap: 2rem;
 }
 
+.item-image-holder {
+  margin: -20px -25px 25px -25px;
+  width: calc(100% + 50px);
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+  }
+}
+
+.item-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  height: 4.5em;
+}
+
 @media only screen and (min-width: 767px) {
   .suppliers-list {
     grid-template-columns: 1fr 1fr;
