@@ -5,3 +5,8 @@ export const getAllSuppliers = state => {
     return [...arr, { ...supplier, count: inventory.length }];
   }, []);
 };
+
+// get inventory
+export const getInventory = (state, supplierID) => {
+  return state.inventory.filter(item => item.supplier_id === supplierID);
+};

@@ -1,35 +1,48 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 import { Button } from "@material-ui/core";
 
-import { getSupplier } from "../../utils/data";
 import ItemCard from "../../components/itemCard/itemCard";
 
-const Inventory = () => {
-  // hooked
-  const { supplierID } = useParams();
+import { getInventory } from "../../selectors/mainSelector";
 
+const Inventory = props => {
   // state
   const [openDialog, setOpenDialog] = useState(false);
-  const [data, setData] = useState(getSupplier(supplierID));
 
   return (
-    <div className="px-8 sm:py-16 py-8">
-      <div className="mb-8 flex flex-row items-center justify-between">
-        <p className="text-2xl font-bold text-gray-900">{data.supplierDetails.name}</p>
+    <>
+      <div className="px-8 sm:py-16 py-8">
+        <div className="mb-8 flex sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-3xl font-bold text-gray-900">Inventory</p>
 
-        <Button variant="outlined" onClick={() => setOpenDialog(true)}>
-          Add an Item
-        </Button>
-      </div>
+          <Button
+            disableElevation
+            className="custom-button"
+            variant="contained"
+            color="primary"
+            onClick={() => setOpenDialog(true)}
+          >
+            Add an Item
+          </Button>
+        </div>
 
-      <div className="suppliers-list">
-        {data.inventory.length &&
-          data.inventory.map(item => <ItemCard key={item.id} item={item} />)}
+        <div className="suppliers-list">
+          {props.inventory.length &&
+            props.inventory.map(item => <ItemCard key={item.id} item={item} />)}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
-export default Inventory;
+// map state to props
+const mapStateToProps = (state, ownProps) => {
+  return {
+    inventory: getInventory(state, ownProps.match.params.supplierID)
+  };
+};
+
+export default withRouter(connect(mapStateToProps, null)(Inventory));
