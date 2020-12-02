@@ -1,7 +1,5 @@
-import { Link } from "react-router-dom";
-
 import { Card, CardContent } from "@material-ui/core";
-import { Box, Mail, Map, Phone, User } from "react-feather";
+import { Box } from "react-feather";
 
 const ItemCard = props => {
   return (
