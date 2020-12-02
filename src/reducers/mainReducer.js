@@ -1,4 +1,4 @@
-import { UPDATE_SUPPLIER } from "../actions/actions";
+import { UPDATE_INVENTORY, UPDATE_SUPPLIER } from "../actions/actions";
 
 import data from "../data.json";
 
@@ -19,6 +19,18 @@ const mainReducer = (state = initState, action) => {
       };
 
       break;
+
+    case UPDATE_INVENTORY:
+      // eslint-disable-next-line
+      var { inventory } = action.payload;
+
+      state = {
+        ...state,
+        inventory
+      };
+
+      break;
+
     default:
       return state;
   }
