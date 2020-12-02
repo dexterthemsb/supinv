@@ -1,7 +1,10 @@
 import data from "../data.json";
 
 export const getAllSuppliers = () => {
-  return data.suppliers;
+  return data.suppliers.reduce((arr, supplier) => {
+    const inventory = data.inventory.filter(item => supplier.id === item.supplier_id);
+    return [...arr, { ...supplier, count: inventory.length }];
+  }, []);
 };
 
 export const getAllItems = () => {

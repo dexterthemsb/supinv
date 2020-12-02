@@ -14,9 +14,9 @@ const Inventory = () => {
   const [data, setData] = useState(getSupplier(supplierID));
 
   return (
-    <div className="px-8 py-16">
+    <div className="px-8 sm:py-16 py-8">
       <div className="mb-8 flex flex-row items-center justify-between">
-        <p className="text-4xl font-bold text-gray-900">{data.supplierDetails.name}</p>
+        <p className="text-2xl font-bold text-gray-900">{data.supplierDetails.name}</p>
 
         <Button variant="outlined" onClick={() => setOpenDialog(true)}>
           Add an Item

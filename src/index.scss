@@ -50,6 +50,10 @@ code {
   padding: 25px !important;
 }
 
+.card-content {
+  padding: 20px 25px !important;
+}
+
 .dialog-content {
   padding: 0 25px !important;
 }
@@ -65,4 +69,22 @@ code {
 
 .button-submit {
   padding: 15.25px 25px !important;
+}
+
+.suppliers-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2rem;
+}
+
+@media only screen and (min-width: 767px) {
+  .suppliers-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (min-width: 1140px) {
+  .suppliers-list {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }
