@@ -79,6 +79,8 @@ const SupplierForm = props => {
       props.editSupplierDetails(supplier);
     }
 
+    setSupplier({ ...initObj });
+
     props.handleOpenCloseDialog(null);
   };
 
@@ -97,7 +99,10 @@ const SupplierForm = props => {
         <DialogTitle className="dialog-header">
           <DialogHeader
             title={props.editSupplier ? "Edit Supplier" : "Add a Supplier"}
-            close={() => props.handleOpenCloseDialog(null)}
+            close={() => {
+              setSupplier({ ...initObj });
+              props.handleOpenCloseDialog(null);
+            }}
           />
         </DialogTitle>
 
