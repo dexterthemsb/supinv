@@ -19,7 +19,7 @@ const Suppliers = props => {
   const [openDialog, setOpenDialog] = useState(false);
   const [editSupplier, setEditSupplier] = useState(null);
 
-  // handle edit supplier
+  // handle open / close dialog
   const handleOpenCloseDialog = data => {
     setEditSupplier(data);
     setOpenDialog(!openDialog);
