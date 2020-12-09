@@ -48,14 +48,6 @@ const ItemForm = props => {
 
   // state
   const [item, setItem] = useState({ ...initObj, ...props.editItem });
-  // const [name, setName] = useState("");
-  // const [category, setCategory] = useState("");
-  // const [description, setDescription] = useState("");
-  // const [batchID, setBatchID] = useState("");
-  // const [warehouseID, setWarehouseID] = useState("");
-  // const [qty, setQty] = useState("");
-  // const [units, setUnits] = useState("");
-  // const [image, setImage] = useState("");
   const [error, setError] = useState("");
 
   // handle submit
@@ -74,6 +66,7 @@ const ItemForm = props => {
       return;
     }
 
+    // check the mode (edit / add) based on editItem prop
     if (!props.editItem) {
       props.addToInventory({
         ...item,

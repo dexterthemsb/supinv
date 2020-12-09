@@ -45,11 +45,6 @@ const SupplierForm = props => {
 
   // state
   const [supplier, setSupplier] = useState({ ...initObj, ...props.editSupplier });
-  // const [name, setName] = useState("");
-  // const [address, setAddress] = useState("");
-  // const [contactPerson, setContactPerson] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [mobile, setMobile] = useState("");
   const [error, setError] = useState("");
 
   // handle change supplier details
