@@ -10,7 +10,6 @@ import SupplierForm from "../../components/supplierForm/supplierForm";
 import { useWindowSize } from "../../utils/hooks";
 
 import { getAllSuppliers } from "../../selectors/mainSelector";
-import { addSupplier } from "../../actions/supplierActions";
 
 const Suppliers = props => {
   // hooked
@@ -18,10 +17,12 @@ const Suppliers = props => {
 
   // state
   const [openDialog, setOpenDialog] = useState(false);
+  const [editSupplier, setEditSupplier] = useState(null);
 
-  // handle add suppliers
-  const handleAddSuppliers = data => {
-    props.addSupplier(data);
+  // handle edit supplier
+  const handleOpenCloseDialog = data => {
+    setEditSupplier(data);
+    setOpenDialog(!openDialog);
   };
 
   return (
@@ -51,10 +52,20 @@ const Suppliers = props => {
 
         <div className="suppliers-list">
           {props.suppliers.length &&
-            props.suppliers.map(supplier => <SupplierCard key={supplier.id} supplier={supplier} />)}
+            props.suppliers.map(supplier => (
+              <SupplierCard
+                key={supplier.id}
+                supplier={supplier}
+                handleOpenCloseDialog={handleOpenCloseDialog}
+              />
+            ))}
         </div>
 
-        <SupplierForm open={openDialog} setOpen={setOpenDialog} submit={handleAddSuppliers} />
+        <SupplierForm
+          open={openDialog}
+          handleOpenCloseDialog={handleOpenCloseDialog}
+          editSupplier={editSupplier}
+        />
       </div>
     </>
   );
@@ -67,9 +78,4 @@ const mapStateToProps = state => {
   };
 };
 
-// map dispatch to props
-const mapDispatchToProps = {
-  addSupplier
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Suppliers);
+export default connect(mapStateToProps, null)(Suppliers);

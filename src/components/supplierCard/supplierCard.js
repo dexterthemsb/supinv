@@ -35,12 +35,17 @@ const SupplierCard = props => {
         </p>
 
         <div className="flex flex-row items-center justify-between">
-          <Link
-            className="hover:text-yellow-700 text-yellow-600 mr-6"
-            to={`/supplier/${props.supplier.id}`}
-          >
-            View Inventory
-          </Link>
+          <p className="text-yellow-600">
+            <Link className="hover:text-yellow-700 " to={`/supplier/${props.supplier.id}`}>
+              View Inventory
+            </Link>
+            <span
+              className="hover:text-yellow-700 cursor-pointer ml-6"
+              onClick={() => props.handleOpenCloseDialog(props.supplier)}
+            >
+              Edit
+            </span>
+          </p>
 
           <p className="py-1 px-2 flex flex-row items-center text-gray-700 font-medium text-sm bg-gray-100 rounded-full w-max">
             <Box className="mr-2" size={16} />

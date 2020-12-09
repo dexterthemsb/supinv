@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
 import {
@@ -17,6 +18,8 @@ import CustomAlert from "../customAlert/customAlert";
 
 import { useWindowSize } from "../../utils/hooks";
 
+import { addSupplier, editSupplierDetails } from "../../actions/supplierActions";
+
 // slide transition
 const SlideTransition = props => {
   return <Slide {...props} direction="up" />;
@@ -27,38 +30,61 @@ const GrowTransition = props => {
   return <Grow {...props} />;
 };
 
+// default obj
+const initObj = {
+  name: "",
+  address: "",
+  contact_person: "",
+  email: "",
+  mobile: ""
+};
+
 const SupplierForm = props => {
   // hooked
   const { windowWidth } = useWindowSize();
 
   // state
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [contactPerson, setContactPerson] = useState("");
-  const [email, setEmail] = useState("");
-  const [mobile, setMobile] = useState("");
+  const [supplier, setSupplier] = useState({ ...initObj, ...props.editSupplier });
+  // const [name, setName] = useState("");
+  // const [address, setAddress] = useState("");
+  // const [contactPerson, setContactPerson] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [mobile, setMobile] = useState("");
   const [error, setError] = useState("");
 
-  const handleAddSupplier = e => {
+  // handle change supplier details
+  const handleChangeSupplierDetails = (field, value) => {
+    setSupplier({ ...supplier, [field]: value });
+  };
+
+  // handle submit
+  const handleSubmit = e => {
     e.preventDefault();
 
-    if (!name || !address || !contactPerson || !email || !mobile) {
-      setError("Please mandatory fields.");
+    const { name, address, contact_person, email, mobile } = supplier;
+
+    if (!name || !address || !contact_person || !email || !mobile) {
+      setError("Please enter mandatory fields.");
       return;
     }
 
-    props.submit({
-      name,
-      id: uuidv4(),
-      address,
-      contact_person: contactPerson,
-      email,
-      mobile,
-      reg_date: Date.now()
-    });
+    // check the mode (edit / add) based on editSupplier prop
+    if (!props.editSupplier) {
+      props.addSupplier({
+        ...supplier,
+        id: uuidv4(),
+        reg_date: Date.now()
+      });
+    } else {
+      props.editSupplierDetails(supplier);
+    }
 
-    props.setOpen(false);
+    props.handleOpenCloseDialog(null);
   };
+
+  useEffect(() => {
+    setSupplier({ ...props.editSupplier });
+  }, [props.editSupplier]);
 
   return (
     <>
@@ -69,7 +95,10 @@ const SupplierForm = props => {
         TransitionComponent={windowWidth <= 540 ? SlideTransition : GrowTransition}
       >
         <DialogTitle className="dialog-header">
-          <DialogHeader title="Add a Supplier" close={() => props.setOpen(false)} />
+          <DialogHeader
+            title={props.editSupplier ? "Edit Supplier" : "Add a Supplier"}
+            close={() => props.handleOpenCloseDialog(null)}
+          />
         </DialogTitle>
 
         <form>
@@ -81,7 +110,9 @@ const SupplierForm = props => {
               variant="filled"
               InputProps={{ disableUnderline: true }}
               label="Supplier Name"
-              onChange={e => setName(e.target.value)}
+              name="name"
+              value={supplier.name}
+              onChange={e => handleChangeSupplierDetails(e.target.name, e.target.value)}
             />
 
             <TextField
@@ -91,7 +122,9 @@ const SupplierForm = props => {
               variant="filled"
               InputProps={{ disableUnderline: true }}
               label="Address"
-              onChange={e => setAddress(e.target.value)}
+              name="address"
+              value={supplier.address}
+              onChange={e => handleChangeSupplierDetails(e.target.name, e.target.value)}
             />
 
             <TextField
@@ -101,7 +134,9 @@ const SupplierForm = props => {
               variant="filled"
               InputProps={{ disableUnderline: true }}
               label="Contact Person"
-              onChange={e => setContactPerson(e.target.value)}
+              name="contact_person"
+              value={supplier.contact_person}
+              onChange={e => handleChangeSupplierDetails(e.target.name, e.target.value)}
             />
 
             <TextField
@@ -111,7 +146,9 @@ const SupplierForm = props => {
               variant="filled"
               InputProps={{ disableUnderline: true }}
               label="Email"
-              onChange={e => setEmail(e.target.value)}
+              name="email"
+              value={supplier.email}
+              onChange={e => handleChangeSupplierDetails(e.target.name, e.target.value)}
             />
 
             <TextField
@@ -121,7 +158,9 @@ const SupplierForm = props => {
               variant="filled"
               InputProps={{ disableUnderline: true }}
               label="Mobile"
-              onChange={e => setMobile(e.target.value)}
+              name="mobile"
+              value={supplier.mobile}
+              onChange={e => handleChangeSupplierDetails(e.target.name, e.target.value)}
             />
           </DialogContent>
 
@@ -134,7 +173,7 @@ const SupplierForm = props => {
               color="primary"
               type="submit"
               style={{ margin: "-25px 0 0 0" }}
-              onClick={e => handleAddSupplier(e)}
+              onClick={e => handleSubmit(e)}
             >
               Save details
             </Button>
@@ -148,4 +187,10 @@ const SupplierForm = props => {
   );
 };
 
-export default SupplierForm;
+// map dispatch to props
+const mapDispatchToProps = {
+  addSupplier,
+  editSupplierDetails
+};
+
+export default connect(null, mapDispatchToProps)(SupplierForm);
