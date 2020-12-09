@@ -11,7 +11,6 @@ import ItemForm from "../../components/itemForm/itemForm";
 import { useWindowSize } from "../../utils/hooks";
 
 import { getInventory } from "../../selectors/mainSelector";
-import { addToInventory } from "../../actions/inventoryActions";
 
 const Inventory = props => {
   // hooked
@@ -20,10 +19,12 @@ const Inventory = props => {
 
   // state
   const [openDialog, setOpenDialog] = useState(false);
+  const [editItem, setEditItem] = useState(null);
 
-  // handle add items
-  const handleAddItems = item => {
-    props.addToInventory({ ...item, supplier_id: supplierID });
+  // handle open / close dialog
+  const handleOpenCloseDialog = data => {
+    setEditItem(data);
+    setOpenDialog(!openDialog);
   };
 
   return (
@@ -53,10 +54,17 @@ const Inventory = props => {
 
         <div className="suppliers-list">
           {props.inventory.length &&
-            props.inventory.map(item => <ItemCard key={item.id} item={item} />)}
+            props.inventory.map(item => (
+              <ItemCard key={item.id} item={item} handleOpenCloseDialog={handleOpenCloseDialog} />
+            ))}
         </div>
 
-        <ItemForm open={openDialog} setOpen={setOpenDialog} submit={handleAddItems} />
+        <ItemForm
+          open={openDialog}
+          handleOpenCloseDialog={handleOpenCloseDialog}
+          editItem={editItem}
+          supplierID={supplierID}
+        />
       </div>
     </>
   );
@@ -69,9 +77,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-// map dispatch to props
-const mapDispatchToProps = {
-  addToInventory
-};
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Inventory));
+export default withRouter(connect(mapStateToProps, null)(Inventory));

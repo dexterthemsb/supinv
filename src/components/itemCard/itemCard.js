@@ -5,6 +5,14 @@ const ItemCard = props => {
   return (
     <Card>
       <CardContent className="card-content">
+        {/* edit button */}
+        <p
+          className="flex flex-row items-center text-blue-700 text-sm font-medium py-1 px-2 bg-blue-100 hover:bg-blue-200 rounded w-max edit-button-abs-card cursor-pointer"
+          onClick={() => props.handleOpenCloseDialog(props.item)}
+        >
+          Edit
+        </p>
+
         {/* image */}
         <div className="item-image-holder">
           {props.item.image ? (

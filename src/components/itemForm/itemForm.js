@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
 import {
@@ -17,6 +18,8 @@ import CustomAlert from "../customAlert/customAlert";
 
 import { useWindowSize } from "../../utils/hooks";
 
+import { addToInventory, editItemDetails } from "../../actions/inventoryActions";
+
 // slide transition
 const SlideTransition = props => {
   return <Slide {...props} direction="up" />;
@@ -27,49 +30,74 @@ const GrowTransition = props => {
   return <Grow {...props} />;
 };
 
+// default object
+const initObj = {
+  name: "",
+  category: "",
+  description: "",
+  batch_id: "",
+  warehouse_id: "",
+  qty: "",
+  units: "",
+  image: ""
+};
+
 const ItemForm = props => {
   // hooked
   const { windowWidth } = useWindowSize();
 
   // state
-  const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
-  const [desc, setDesc] = useState("");
-  const [batchID, setBatchID] = useState("");
-  const [warehouseID, setWarehouseID] = useState("");
-  const [qty, setQty] = useState("");
-  const [units, setUnits] = useState("");
-  const [image, setImage] = useState("");
+  const [item, setItem] = useState({ ...initObj, ...props.editItem });
+  // const [name, setName] = useState("");
+  // const [category, setCategory] = useState("");
+  // const [description, setDescription] = useState("");
+  // const [batchID, setBatchID] = useState("");
+  // const [warehouseID, setWarehouseID] = useState("");
+  // const [qty, setQty] = useState("");
+  // const [units, setUnits] = useState("");
+  // const [image, setImage] = useState("");
   const [error, setError] = useState("");
 
-  const handleAddSupplier = e => {
+  // handle submit
+  const handleSubmit = e => {
     e.preventDefault();
 
-    if (!name || !category || !desc || !batchID || !warehouseID || !image) {
-      setError("Please mandatory fields.");
+    const { name, category, description, batch_id, warehouse_id, qty, units } = item;
+
+    if (!name || !category || !description || !batch_id || !warehouse_id) {
+      setError("Please enter mandatory fields.");
       return;
     }
 
     if (qty < 0 || units < 0) {
-      setError("Quantity & Units should be greater than 0.");
+      setError("Quantity & Units should be a valid number.");
       return;
     }
 
-    props.submit({
-      name,
-      id: uuidv4(),
-      category,
-      description: desc,
-      batch_id: batchID,
-      warehouse_id: warehouseID,
-      qty,
-      units,
-      prod_date: Date.now(),
-      image
-    });
+    if (!props.editItem) {
+      props.addToInventory({
+        ...item,
+        id: uuidv4(),
+        supplier_id: props.supplierID,
+        prod_date: Date.now()
+      });
+    } else {
+      props.editItemDetails(item);
+    }
 
-    props.setOpen(false);
+    setItem({ ...initObj });
+
+    props.handleOpenCloseDialog(null);
   };
+
+  // handle change item details
+  const handleChangeItemDetails = (field, value) => {
+    setItem({ ...item, [field]: value });
+  };
+
+  useEffect(() => {
+    setItem({ ...props.editItem });
+  }, [props.editItem]);
 
   return (
     <>
@@ -80,7 +108,13 @@ const ItemForm = props => {
         TransitionComponent={windowWidth <= 540 ? SlideTransition : GrowTransition}
       >
         <DialogTitle className="dialog-header">
-          <DialogHeader title="Add an Supplier" close={() => props.setOpen(false)} />
+          <DialogHeader
+            title={props.editItem ? "Edit Item" : "Add an Item"}
+            close={() => {
+              setItem({ ...initObj });
+              props.handleOpenCloseDialog(false);
+            }}
+          />
         </DialogTitle>
 
         <form>
@@ -92,7 +126,9 @@ const ItemForm = props => {
               variant="filled"
               InputProps={{ disableUnderline: true }}
               label="Item Name"
-              onChange={e => setName(e.target.value)}
+              name="name"
+              value={item.name}
+              onChange={e => handleChangeItemDetails(e.target.name, e.target.value)}
             />
 
             <TextField
@@ -102,7 +138,9 @@ const ItemForm = props => {
               variant="filled"
               InputProps={{ disableUnderline: true }}
               label="Category"
-              onChange={e => setCategory(e.target.value)}
+              name="category"
+              value={item.category}
+              onChange={e => handleChangeItemDetails(e.target.name, e.target.value)}
             />
 
             <TextField
@@ -111,7 +149,9 @@ const ItemForm = props => {
               variant="filled"
               InputProps={{ disableUnderline: true }}
               label="Image URL"
-              onChange={e => setImage(e.target.value)}
+              name="image"
+              value={item.image}
+              onChange={e => handleChangeItemDetails(e.target.name, e.target.value)}
             />
 
             <div className="form-row-2">
@@ -122,7 +162,9 @@ const ItemForm = props => {
                 InputProps={{ disableUnderline: true }}
                 label="Quantity in Stock"
                 type="number"
-                onChange={e => setQty(e.target.value)}
+                name="qty"
+                value={item.qty}
+                onChange={e => handleChangeItemDetails(e.target.name, e.target.value)}
               />
 
               <TextField
@@ -132,7 +174,9 @@ const ItemForm = props => {
                 InputProps={{ disableUnderline: true }}
                 label="Units"
                 type="number"
-                onChange={e => setUnits(e.target.value)}
+                name="units"
+                value={item.units}
+                onChange={e => handleChangeItemDetails(e.target.name, e.target.value)}
               />
             </div>
 
@@ -144,7 +188,9 @@ const ItemForm = props => {
               variant="filled"
               InputProps={{ disableUnderline: true }}
               label="Description"
-              onChange={e => setDesc(e.target.value)}
+              name="description"
+              value={item.description}
+              onChange={e => handleChangeItemDetails(e.target.name, e.target.value)}
             />
 
             <div className="form-row-2">
@@ -155,7 +201,9 @@ const ItemForm = props => {
                 variant="filled"
                 InputProps={{ disableUnderline: true }}
                 label="Batch ID"
-                onChange={e => setBatchID(e.target.value)}
+                name="batch_id"
+                value={item.batch_id}
+                onChange={e => handleChangeItemDetails(e.target.name, e.target.value)}
               />
 
               <TextField
@@ -165,7 +213,9 @@ const ItemForm = props => {
                 variant="filled"
                 InputProps={{ disableUnderline: true }}
                 label="Warehouse ID"
-                onChange={e => setWarehouseID(e.target.value)}
+                name="warehouse_id"
+                value={item.warehouse_id}
+                onChange={e => handleChangeItemDetails(e.target.name, e.target.value)}
               />
             </div>
           </DialogContent>
@@ -179,7 +229,7 @@ const ItemForm = props => {
               color="primary"
               type="submit"
               style={{ margin: "-25px 0 0 0" }}
-              onClick={e => handleAddSupplier(e)}
+              onClick={e => handleSubmit(e)}
             >
               Save details
             </Button>
@@ -193,4 +243,10 @@ const ItemForm = props => {
   );
 };
 
-export default ItemForm;
+// map dispatch to props
+const mapDispatchToProps = {
+  addToInventory,
+  editItemDetails
+};
+
+export default connect(null, mapDispatchToProps)(ItemForm);
